@@ -97,7 +97,8 @@ app.post('/sales', async function(req,res){
         await inventory.findOneAndUpdate(filter, update);
 
         const today = new Date();
-        const formatdate = format(today, 'dd-MM-yyyy')
+        const formatdate = format(today, 'dd-MM-yyyy');
+        const newformat = format(today, 'yyyy-MM-dd');
     
         await sale.create({
             product: createPayload.product,
@@ -105,7 +106,8 @@ app.post('/sales', async function(req,res){
             sales: createPayload.sales,
             profit: parseFloat((createPayload.sales - existingProduct.avgprice).toFixed(2)),
             qty: createPayload.qty,
-            date: formatdate
+            date: formatdate,
+            newformat: newformat
         })
 
         res.json({
@@ -176,7 +178,7 @@ app.get('/inventory', async function(req,res){
 })
 
 app.get('/salesregister', async function(req,res){
-    const list = await sale.find({}).sort({date: -1});
+    const list = await sale.find({}).sort({newformat: -1});
     let totsales, totprofit = 0;
 
     const listArray = Object.values(list);

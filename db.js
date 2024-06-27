@@ -19,6 +19,7 @@ const salesSchema = new mongoose.Schema({
     qty: Number,
     purchase: Number,
     date: String,
+    newformat: String
 });
 
 const inventorySchema = new mongoose.Schema({
