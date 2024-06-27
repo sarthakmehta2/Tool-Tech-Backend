@@ -12,14 +12,13 @@ mongoose.connect(MONGOURI, {
     useUnifiedTopology: true,
   });
 
-
 const salesSchema = new mongoose.Schema({
     product: String,
     sales: Number,
     profit: Number,
     qty: Number,
     purchase: Number,
-    date: String
+    date: String,
 });
 
 const inventorySchema = new mongoose.Schema({

@@ -162,7 +162,7 @@ app.get('/inventory', async function(req,res){
         }
         return sum;
     }
-    const totalInventoryValue = Total(pricearr, qtyarr)
+    const totalInventoryValue = Total(pricearr, qtyarr).toFixed(2);
 
     res.json({
         list: list,
@@ -176,8 +176,12 @@ app.get('/inventory', async function(req,res){
 })
 
 app.get('/salesregister', async function(req,res){
-    const list = await sale.find({});
+    const list = await sale.find({}).sort({date: -1});
     let totsales, totprofit = 0;
+
+    const listArray = Object.values(list);
+    // console.log(listArray);
+    
 
     const aggregatedProducts = list.reduce((acc, item) => {
         if (!acc[item.product]) {
@@ -186,8 +190,7 @@ app.get('/salesregister', async function(req,res){
                 totalQty: 0,
                 avgSales: 0,
                 avgProfit: 0,
-                purchase: item.purchase,
-                
+                purchase: item.purchase,   
             };
         }
 
@@ -211,7 +214,8 @@ app.get('/salesregister', async function(req,res){
         return acc;
     },{})
 
-    const aggregatedSalesArray = Object.values(aggregatedSales); 
+    const aggregatedSalesArray = Object.values(aggregatedSales);
+    console.log(aggregatedSalesArray);
     
     const aggregatedArray = Object.values(aggregatedProducts);
     const newarr = aggregatedArray.map(aggregatedArray =>{
